@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://use.fontawesome.com/392810bcca.js"></script>
     <meta charset='utf-8'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -9,19 +10,55 @@
 </head>
 <body>
   <div id="zad">
+    <input type="text" v-model="search" placeholder="Some name">
+    <p>Id for Update: <input type="text" v-model="changeId"></p>
+    <p>Add new dodik: <input type="text" v-model="name" placeholder="New name"></p> 
+    <p>Group:
+      <select v-model="group">
+        <option>RPZ_16_2</option>
+        <option>RPZ_16_1</option>
+      </select>
+    </p>
+    <p>Pract:<input type="checkbox" v-model="isDonePr"></p>
     
-  <p>Выбери свой област</p>
-  <select v-model="selectedRegion">
-    <option v-for="item in regions" >{{item.Description}}</option>
-  </select> 
-  <p>Выбери свой мухосранск из {{selectedRegion}}</p>   
-  <select v-model="selectedCity" v-on:change='findWare()'>
-    <option v-for="item in city"  >{{item.Description}}</option>
-  </select> 
-  <p>Выбери свою качалку из {{selectedCity}}</p>   
-  <select>
-    <option v-for="item in gym">{{item.Description}}</option>
-  </select> 
-  </div>    
+    <button v-on:click="AddNewStud()">ADD</button>
+    <div>
+      <table class="table table-dark">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Group</th>
+          <th scope="col">Date_of_birth</th>
+          <th scope="col">Zdav</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="product" v-for="(item, index) in students">
+          <td>{{item._id}} </td>
+          <td v-bind:style="item.name.includes(search) && search != '' ? 'color:red' : '' "  >{{item.name}} </td>
+          <td>{{item.group}} </td>
+          <td>{{item.date_of_birth}}</td>
+          <td><input type="checkbox" v-model:clicked="item.zdav"> </td>
+          <td><button v-on:click = "DlStudentById(item._id)">Видалити</button> </td>
+          <td><i class="fa fa-pencil" aria-hidden="true" v-on:click="UpdtById()"></i></td>
+        </tr>
+      </table>
+      <select v-model='money'>
+        <option>UAH</option>
+        <option>EUR</option>
+      </select>
+      USD: <input type="text" v-model="usd">
+      <h1 v-if="money == 'UAH'">UAH: {{usd*curr.quotes.USDUAH}}</h1>
+      <h1 v-else-if="money == 'EUR'">EUR: {{usd*curr.quotes.USDEUR}}</h1>
+      <h1 v-else>Выберите валюту</h1>
+      
+      
+    </div>
+    <br>
+               
+                  
+
+</div>    
 </body>
 <script src="main.js"></script>
